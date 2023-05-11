@@ -1,0 +1,12 @@
+<input
+  [formControl]="control"
+  [type]="type"
+  [placeholder]="placeholder"
+  class="border py-2 px-3 bg-transparent block rounded w-full"
+/>
+<ng-container *ngIf="control.touched && control.dirty">
+  <p *ngIf="control.errors?.required" class="text-red-400">
+    Field is required.
+  </p>
+  <p *ngIf="control.errors?.email" class="text-red-400">Invalid email.</p>
+</ng-container>
