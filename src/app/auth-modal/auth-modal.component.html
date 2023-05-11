@@ -1,0 +1,30 @@
+<app-modal modalID="auth">
+  <p class="text-xl font-bold" heading>Sign In</p>
+  <div class="w-64">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="mb-4">
+        <app-input
+          [control]="email"
+          type="email"
+          placeholder="Email"
+          class="w-64"
+        ></app-input>
+      </div>
+      <div class="mb-4">
+        <app-input
+          [control]="password"
+          type="password"
+          placeholder="Password"
+          class="w-64"
+        ></app-input>
+      </div>
+      <button
+      [disabled]="loginForm.invalid"
+        type="submit"
+        class="w-full bg-blue-500 text-white rounded-lg p-0.5 hover:bg-blue-600 disabled:opacity-50"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</app-modal>
