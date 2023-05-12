@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { AuthModalComponent } from './auth-modal/auth-modal.component';
 import { HomeComponent } from './home/home.component';
 import { MasterlistComponent } from './masterlist/masterlist.component';
+import { SupplierComponent } from './supplier/supplier.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, AuthModalComponent, MasterlistComponent],
+  declarations: [AppComponent, HomeComponent, AuthModalComponent, MasterlistComponent, SupplierComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],

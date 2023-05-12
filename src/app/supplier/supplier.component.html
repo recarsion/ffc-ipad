@@ -1,0 +1,25 @@
+<app-modal modalID="supplier">
+  <p class="text-xl font-bold" heading>{{ supplierModalTitle }}</p>
+  <div class="w-64">
+    <form>
+      <div class="mb-4">
+        <app-input type="text" placeholder="Supplier Name"></app-input>
+      </div>
+      <div class="mb-4">
+        <app-input type="text" placeholder="Address"></app-input>
+      </div>
+      <div class="mb-4">
+        <app-input type="" placeholder="Contact Number"></app-input>
+      </div>
+      <div class="mb-4">
+        <app-input type="email" placeholder="Contact Email"></app-input>
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white rounded-lg p-0.5 hover:bg-blue-600 disabled:opacity-50"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</app-modal>
