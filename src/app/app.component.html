@@ -1,3 +1,7 @@
-<!--<app-masterlist></app-masterlist>-->
-<app-home></app-home>
-<app-auth-modal></app-auth-modal>
+<div *ngIf="!auth.isAuthenticated; else authMasterlist">
+    <app-home></app-home>
+    <app-auth-modal></app-auth-modal>
+</div>
+<ng-template #authMasterlist>
+    <app-masterlist></app-masterlist>
+</ng-template>
