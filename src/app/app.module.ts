@@ -34,3 +34,4 @@ import {getAuth, provideAuth} from "@angular/fire/auth";
 })
 export class AppModule {
 }
+
