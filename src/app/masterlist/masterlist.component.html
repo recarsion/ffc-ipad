@@ -31,7 +31,7 @@
     </div>
 
     <!-- Add Supplier Button -->
-    <div class="flex justify-center align-middle">
+    <div class="flex justify-center align-middle mb-4">
       <button
         class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-0.5 w-1/2"
         (click)="addSupplier()"
@@ -39,7 +39,17 @@
         Add Supplier
       </button>
     </div>
+
+    <div class="flex flex-col">
+      <ul>
+        <li *ngFor="let supplier of suppliers"
+            class="flex justify-center align-middle mb-2">
+          {{ supplier.name }}
+        </li>
+      </ul>
+    </div>
   </div>
+
 
   <div class="flex justify-center align-middle">
     <a

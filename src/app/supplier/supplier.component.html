@@ -1,20 +1,53 @@
 <app-modal modalID="supplier">
   <p class="text-xl font-bold" heading>{{ supplierModalTitle }}</p>
   <div class="w-64">
-    <form>
+    <form [formGroup]="supplierForm" (ngSubmit)="submitAddSupplier()">
       <div class="mb-4">
-        <app-input type="text" placeholder="Supplier Name"></app-input>
+        <app-input
+          [control]="name"
+          type="text"
+          placeholder="Supplier Name"></app-input>
       </div>
       <div class="mb-4">
-        <app-input type="text" placeholder="Address"></app-input>
+        <app-input
+          [control]="address"
+          type="text"
+          placeholder="Address"></app-input>
       </div>
       <div class="mb-4">
-        <app-input type="" placeholder="Contact Number"></app-input>
+        <app-input
+          [control]="contactNumber"
+          type="text"
+          placeholder="Contact Number"></app-input>
       </div>
       <div class="mb-4">
-        <app-input type="email" placeholder="Contact Email"></app-input>
+        <app-input
+          [control]="contactEmail"
+          type="email"
+          placeholder="Contact Email"></app-input>
       </div>
+      <hr/>
+      <!--      <p class="text-xl font-bold">Items</p>-->
+      <!--      <div formGroupName="items">-->
+      <!--        <label>Item Name:</label>-->
+      <!--        <app-input-->
+      <!--          [control]="itemName"-->
+      <!--          type="text"-->
+      <!--          placeholder="Item Name"></app-input>-->
+      <!--        <label>Price/Unit</label>-->
+      <!--        <app-input-->
+      <!--          [control]="pricePerUnit"-->
+      <!--          type="text"-->
+      <!--          placeholder="Price/Unit"></app-input>-->
+      <!--        <label>MOQ:</label>-->
+      <!--        <app-input-->
+      <!--          [control]="moq"-->
+      <!--          type="text"-->
+      <!--          placeholder="MOQ"></app-input>-->
+      <!--      </div>-->
+      <!--      <button type="button" (click)="addItem()">Add Item</button>-->
       <button
+        [disabled]="supplierForm.invalid"
         type="submit"
         class="w-full bg-blue-500 text-white rounded-lg p-0.5 hover:bg-blue-600 disabled:opacity-50"
       >
