@@ -3,7 +3,6 @@ import {ModalService} from '../services/modal.service';
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import {MasterlistService} from "../services/masterlist.service";
 import ISupplier from "../models/supplier.model";
-import {deleteDoc, doc} from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-supplier',
@@ -86,6 +85,5 @@ export class SupplierComponent implements OnInit, OnDestroy {
   async deleteSupplier($event: Event) {
     $event.preventDefault();
     console.log('deleteSupplier called')
-    await deleteDoc(doc)
   }
 }
