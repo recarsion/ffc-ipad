@@ -12,7 +12,11 @@ import {DocumentData} from "@angular/fire/compat/firestore";
 export class MasterlistComponent implements OnInit {
   modalTitle = '';
   supplierAction = '';
-  suppliers: DocumentData[] = [];
+
+  supplierName = ''
+  supplierAddress = ''
+  supplierNumber = ''
+  supplierEmail = ''
 
   constructor(
     public modal: ModalService,
@@ -22,7 +26,6 @@ export class MasterlistComponent implements OnInit {
 
   async ngOnInit() {
     await this.masterlistService.fetchData()
-    this.suppliers = this.masterlistService.supplierList;
   }
 
   addSupplier() {
@@ -31,10 +34,15 @@ export class MasterlistComponent implements OnInit {
     this.supplierAction = 'isAdd';
   }
 
-  viewSupplier() {
+  viewSupplier(supplier: DocumentData) {
     this.modalTitle = 'Supplier Details';
     this.modal.toggleModal('supplier');
     this.supplierAction = 'isView';
+
+    this.supplierName = supplier.name;
+    this.supplierAddress = supplier.address
+    this.supplierNumber = supplier.contactNumber
+    this.supplierEmail = supplier.contactEmail
   }
 
   async logout($event: Event) {

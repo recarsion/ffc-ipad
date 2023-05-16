@@ -3,6 +3,7 @@ import {ModalService} from '../services/modal.service';
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import {MasterlistService} from "../services/masterlist.service";
 import ISupplier from "../models/supplier.model";
+import {deleteDoc, doc} from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-supplier',
@@ -12,6 +13,11 @@ import ISupplier from "../models/supplier.model";
 export class SupplierComponent implements OnInit, OnDestroy {
   @Input() supplierModalTitle = '';
   @Input() supplierAction = '';
+
+  @Input() supplierName = ''
+  @Input() supplierAddress = ''
+  @Input() supplierNumber = ''
+  @Input() supplierEmail = ''
 
   name = new FormControl('')
   address = new FormControl('')
@@ -43,7 +49,10 @@ export class SupplierComponent implements OnInit, OnDestroy {
 
   })
 
-  constructor(public modal: ModalService, private masterlistService: MasterlistService) {
+  constructor(
+    public modal: ModalService,
+    public masterlistService: MasterlistService
+  ) {
   }
 
   ngOnInit(): void {
@@ -72,5 +81,11 @@ export class SupplierComponent implements OnInit, OnDestroy {
       console.error(e)
       return
     }
+  }
+
+  async deleteSupplier($event: Event) {
+    $event.preventDefault();
+    console.log('deleteSupplier called')
+    await deleteDoc(doc)
   }
 }

@@ -8,6 +8,7 @@ import {DocumentData} from "@angular/fire/compat/firestore";
 })
 export class MasterlistService {
   supplierList: DocumentData[] = []
+  supplierDocumentList: DocumentData[] = []
 
   constructor(public db: Firestore) {
   }
@@ -29,7 +30,10 @@ export class MasterlistService {
   async fetchData() {
     try {
       const supplierData = await getDocs(collection(this.db, 'suppliers'))
-      supplierData.forEach(doc => this.supplierList.push(doc.data()))
+      supplierData.forEach(doc => {
+        this.supplierList.push(doc.data())
+        this.supplierDocumentList.push(doc)
+      })
     } catch (e) {
       console.error(e)
     }

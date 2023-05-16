@@ -59,7 +59,32 @@
   </ng-container>
 
   <ng-container *ngIf="supplierAction === 'isView'">
-    <p>View works</p>
+    <div class="flex flex-col w-64">
+      <div class="flex flex-col align-middle justify-between">
+        <h1 class="font-bold pb-1">Supplier Name:</h1>
+        <p class="pb-4 font-light">{{supplierName}}</p>
+      </div>
+      <div class="flex flex-col align-middle justify-between">
+        <h1 class="font-bold pb-1">Supplier Address:</h1>
+        <p class="pb-4 font-light">{{supplierAddress}}</p>
+      </div>
+      <div class="flex flex-col align-middle justify-between">
+        <h1 class="font-bold pb-1">Contact Number:</h1>
+        <p class="pb-4 font-light">{{supplierNumber}}</p>
+      </div>
+      <div class="flex flex-col align-middle justify-between">
+        <h1 class="font-bold pb-1">Contact Email:</h1>
+        <p class="pb-4 font-light">{{supplierEmail}}</p>
+      </div>
+
+      <div class="flex justify-center align-middle">
+        <a
+          class="text-red-500 font-light hover:cursor-pointer"
+          (click)="deleteSupplier($event)"
+        >
+          Delete Supplier</a>
+      </div>
+    </div>
   </ng-container>
 
 </app-modal>
