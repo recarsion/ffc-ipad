@@ -11,7 +11,8 @@ import {DocumentData} from "@angular/fire/compat/firestore";
 })
 export class MasterlistComponent implements OnInit {
   modalTitle = '';
-  suppliers: DocumentData[] = []
+  supplierAction = '';
+  suppliers: DocumentData[] = [];
 
   constructor(
     public modal: ModalService,
@@ -21,17 +22,24 @@ export class MasterlistComponent implements OnInit {
 
   async ngOnInit() {
     await this.masterlistService.fetchData()
-    this.suppliers = this.masterlistService.supplierList
+    this.suppliers = this.masterlistService.supplierList;
   }
 
   addSupplier() {
     this.modalTitle = 'Add Supplier';
     this.modal.toggleModal('supplier');
+    this.supplierAction = 'isAdd';
+  }
+
+  viewSupplier() {
+    this.modalTitle = 'Supplier Details';
+    this.modal.toggleModal('supplier');
+    this.supplierAction = 'isView';
   }
 
   async logout($event: Event) {
-    $event.preventDefault()
-    await signOut(this.auth)
-    location.reload()
+    $event.preventDefault();
+    await signOut(this.auth);
+    location.reload();
   }
 }

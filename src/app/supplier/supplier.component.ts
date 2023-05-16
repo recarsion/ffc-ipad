@@ -11,6 +11,7 @@ import ISupplier from "../models/supplier.model";
 })
 export class SupplierComponent implements OnInit, OnDestroy {
   @Input() supplierModalTitle = '';
+  @Input() supplierAction = '';
 
   name = new FormControl('')
   address = new FormControl('')
