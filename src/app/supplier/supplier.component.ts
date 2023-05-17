@@ -3,6 +3,7 @@ import {ModalService} from '../services/modal.service';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MasterlistService} from "../services/masterlist.service";
 import ISupplier from "../models/supplier.model";
+import {deleteDoc, doc} from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-supplier',
@@ -19,6 +20,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
   @Input() supplierEmail = ''
   @Input() supplierMOP = ''
   @Input() supplierItems: any[] = []
+  @Input() supplierID = ''
 
   supplierForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -94,7 +96,8 @@ export class SupplierComponent implements OnInit, OnDestroy {
 
   async deleteSupplier($event: Event) {
     $event.preventDefault();
-    console.log('deleteSupplier called')
+    await deleteDoc(doc(this.masterlistService.db, 'suppliers', this.supplierID))
+    location.reload()
   }
 
 }

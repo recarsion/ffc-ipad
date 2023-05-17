@@ -33,9 +33,10 @@ export class MasterlistService {
     try {
       const supplierData = await getDocs(collection(this.db, 'suppliers'))
       supplierData.forEach(doc => {
-        this.supplierList.push(doc.data())
+        this.supplierList.push({...doc.data(), id: doc.id})
         this.supplierDocumentList.push(doc)
       })
+
     } catch (e) {
       console.error(e)
     }
