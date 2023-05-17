@@ -19,17 +19,17 @@
         <div class="flex justify-around align-middle py-2">
           <div>
             <label class="mr-2">Supplier</label>
-            <input type="radio"/>
+            <input type="radio" />
           </div>
           <div>
             <label class="mr-2">Item</label>
-            <input type="radio"/>
+            <input type="radio" />
           </div>
         </div>
       </form>
     </div>
 
-    <hr class="mb-2">
+    <hr class="mb-2" />
 
     <!-- Add Supplier Button -->
     <div class="flex justify-center align-middle mb-4">
@@ -43,20 +43,23 @@
 
     <div class="flex flex-col">
       <ul>
-        <li *ngFor="let supplier of masterlistService.supplierList"
-            class="flex justify-center align-middle mb-2 hover:cursor-pointer"
-            (click)="viewSupplier(supplier)">
+        <li
+          *ngFor="let supplier of masterlistService.supplierList"
+          class="flex justify-center align-middle mb-2 hover:cursor-pointer"
+          (click)="viewSupplier(supplier)"
+        >
           {{ supplier.name | uppercase }}
         </li>
       </ul>
     </div>
   </div>
 
-
   <div class="flex justify-center align-middle">
     <a
       class="text-red-500 font-light hover:cursor-pointer"
-      (click)="logout($event)">Log Out</a>
+      (click)="logout($event)"
+      >Log Out</a
+    >
   </div>
 
   <app-supplier
@@ -66,6 +69,7 @@
     [supplierAddress]="supplierAddress"
     [supplierNumber]="supplierNumber"
     [supplierEmail]="supplierEmail"
+    [supplierRating]="supplierRating"
     [supplierMOP]="supplierMOP"
     [supplierItems]="supplierItems"
     [supplierID]="supplierID"

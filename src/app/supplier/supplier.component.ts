@@ -1,9 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ModalService} from '../services/modal.service';
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MasterlistService} from "../services/masterlist.service";
-import ISupplier from "../models/supplier.model";
-import {deleteDoc, doc} from "@angular/fire/firestore";
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { deleteDoc, doc } from '@angular/fire/firestore';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import ISupplier from '../models/supplier.model';
+import { MasterlistService } from '../services/masterlist.service';
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-supplier',
@@ -14,35 +14,37 @@ export class SupplierComponent implements OnInit, OnDestroy {
   @Input() supplierModalTitle = '';
   @Input() supplierAction = '';
 
-  @Input() supplierName = ''
-  @Input() supplierAddress = ''
-  @Input() supplierNumber = ''
-  @Input() supplierEmail = ''
-  @Input() supplierMOP = ''
-  @Input() supplierItems: any[] = []
-  @Input() supplierID = ''
+  @Input() supplierName = '';
+  @Input() supplierAddress = '';
+  @Input() supplierNumber: number = 0;
+  @Input() supplierEmail = '';
+  @Input() supplierRating: number = 0;
+  @Input() supplierMOP = '';
+  @Input() supplierItems: any[] = [];
+  @Input() supplierID = '';
 
   supplierForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
-    contactNumber: new FormControl('', [Validators.required]),
+    contactNumber: new FormControl<number | null>(null, [Validators.required]),
     contactEmail: new FormControl('', [Validators.required, Validators.email]),
+    supplierRating: new FormControl<number | null>(0, [
+      Validators.required,
+      Validators.min(0),
+      Validators.max(5),
+    ]),
     items: new FormArray([]),
-    methodsOfPayment: new FormArray([])
-
-  })
-
+    methodsOfPayment: new FormArray([]),
+  });
 
   constructor(
     public modal: ModalService,
     public masterlistService: MasterlistService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.modal.register('supplier');
-    this.getItemsControls()
-
+    this.getItemsControls();
   }
 
   ngOnDestroy(): void {
@@ -62,15 +64,16 @@ export class SupplierComponent implements OnInit, OnDestroy {
     const newItemGroup = new FormGroup({
       itemName: new FormControl<number | null>(null, [Validators.required]),
       pricePerUnit: new FormControl<number | null>(null, [Validators.required]),
-      moq: new FormControl('', [Validators.required])
-    })
-    items.push(newItemGroup)
-
+      moq: new FormControl('', [Validators.required]),
+    });
+    items.push(newItemGroup);
   }
 
   addMethodOfPayment() {
-    const methodsOfPayment = this.supplierForm.get('methodsOfPayment') as FormArray;
-    methodsOfPayment.push(new FormControl(''))
+    const methodsOfPayment = this.supplierForm.get(
+      'methodsOfPayment'
+    ) as FormArray;
+    methodsOfPayment.push(new FormControl(''));
   }
 
   removeItem(index: number) {
@@ -79,25 +82,30 @@ export class SupplierComponent implements OnInit, OnDestroy {
   }
 
   removeMethodOfPayment(index: number) {
-    const methodsOfPayment = this.supplierForm.get('methodsOfPayment') as FormArray;
+    const methodsOfPayment = this.supplierForm.get(
+      'methodsOfPayment'
+    ) as FormArray;
     methodsOfPayment.removeAt(index);
   }
 
   async submitAddSupplier() {
     try {
-      await this.masterlistService.createSupplier(this.supplierForm.value as ISupplier)
-      console.log(this.supplierForm.value)
-      location.reload()
+      await this.masterlistService.createSupplier(
+        this.supplierForm.value as ISupplier
+      );
+      console.log(this.supplierForm.value);
+      location.reload();
     } catch (e) {
-      console.error(e)
-      return
+      console.error(e);
+      return;
     }
   }
 
   async deleteSupplier($event: Event) {
     $event.preventDefault();
-    await deleteDoc(doc(this.masterlistService.db, 'suppliers', this.supplierID))
-    location.reload()
+    await deleteDoc(
+      doc(this.masterlistService.db, 'suppliers', this.supplierID)
+    );
+    location.reload();
   }
-
 }

@@ -1,14 +1,15 @@
 export default interface ISupplier {
   name: string;
   address: string;
-  contactNumber: string;
+  contactNumber: number;
   contactEmail: string;
+  supplierRating: number;
   items: IItem[];
-  methodsOfPayment?: string[]
+  methodsOfPayment?: string[];
 }
 
 interface IItem {
-  itemName: string
+  itemName: string;
   pricePerUnit: number;
-  moq: number
+  moq: number;
 }

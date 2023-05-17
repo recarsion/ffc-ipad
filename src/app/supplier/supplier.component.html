@@ -11,9 +11,15 @@
             class="border py-2 px-3 bg-transparent block rounded w-full"
           />
           <ng-container
-            *ngIf="supplierForm.controls.name.touched && supplierForm.controls.name.dirty">
-            <p *ngIf="supplierForm.controls.name.errors?.required"
-               class="text-red-400">
+            *ngIf="
+              supplierForm.controls.name.touched &&
+              supplierForm.controls.name.dirty
+            "
+          >
+            <p
+              *ngIf="supplierForm.controls.name.errors?.required"
+              class="text-red-400"
+            >
               Field is required.
             </p>
           </ng-container>
@@ -26,9 +32,15 @@
             class="border py-2 px-3 bg-transparent block rounded w-full"
           />
           <ng-container
-            *ngIf="supplierForm.controls.address.touched && supplierForm.controls.address.dirty">
-            <p *ngIf="supplierForm.controls.address.errors?.required"
-               class="text-red-400">
+            *ngIf="
+              supplierForm.controls.address.touched &&
+              supplierForm.controls.address.dirty
+            "
+          >
+            <p
+              *ngIf="supplierForm.controls.address.errors?.required"
+              class="text-red-400"
+            >
               Field is required.
             </p>
           </ng-container>
@@ -36,14 +48,20 @@
         <div class="mb-4">
           <input
             formControlName="contactNumber"
-            type="text"
+            type="number"
             placeholder="Supplier Number"
             class="border py-2 px-3 bg-transparent block rounded w-full"
           />
           <ng-container
-            *ngIf="supplierForm.controls.contactNumber.touched && supplierForm.controls.contactNumber.dirty">
-            <p *ngIf="supplierForm.controls.contactNumber.errors?.required"
-               class="text-red-400">
+            *ngIf="
+              supplierForm.controls.contactNumber.touched &&
+              supplierForm.controls.contactNumber.dirty
+            "
+          >
+            <p
+              *ngIf="supplierForm.controls.contactNumber.errors?.required"
+              class="text-red-400"
+            >
               Field is required.
             </p>
           </ng-container>
@@ -56,23 +74,64 @@
             class="border py-2 px-3 bg-transparent block rounded w-full"
           />
           <ng-container
-            *ngIf="supplierForm.controls.contactEmail.touched && supplierForm.controls.contactEmail.dirty">
-            <p *ngIf="supplierForm.controls.contactEmail.errors?.required"
-               class="text-red-400">
+            *ngIf="
+              supplierForm.controls.contactEmail.touched &&
+              supplierForm.controls.contactEmail.dirty
+            "
+          >
+            <p
+              *ngIf="supplierForm.controls.contactEmail.errors?.required"
+              class="text-red-400"
+            >
               Field is required.
             </p>
-            <p *ngIf="supplierForm.controls.contactEmail.errors?.email"
-               class="text-red-400">
+            <p
+              *ngIf="supplierForm.controls.contactEmail.errors?.email"
+              class="text-red-400"
+            >
               Email is required.
             </p>
           </ng-container>
         </div>
-        <hr/>
+        <div class="mb-4">
+          <label>Supplier Rating:</label>
+          <input
+            formControlName="supplierRating"
+            type="number"
+            placeholder="Supplier Rating"
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
+          <ng-container
+            *ngIf="
+              supplierForm.controls.supplierRating.touched &&
+              supplierForm.controls.supplierRating.dirty
+            "
+          >
+            <p
+              *ngIf="supplierForm.controls.supplierRating.errors?.required"
+              class="text-red-400"
+            >
+              Field is required.
+            </p>
+            <p
+              *ngIf="supplierForm.controls.supplierRating.errors?.min"
+              class="text-red-400"
+            >
+              Value too low.
+            </p>
+            <p
+              *ngIf="supplierForm.controls.supplierRating.errors?.max"
+              class="text-red-400"
+            >
+              Value too high.
+            </p>
+          </ng-container>
+        </div>
+        <hr />
 
         <h1 class="mb-2">Items</h1>
         <div formArrayName="items">
-          <div
-            *ngFor="let method of getItemsControls(); let i = index">
+          <div *ngFor="let method of getItemsControls(); let i = index">
             <div [formGroupName]="i" class="mb-2">
               <input
                 formControlName="itemName"
@@ -112,7 +171,8 @@
           <button
             (click)="addItem()"
             class="rounded-lg p-0.5 bg-amber-300 hover:bg-amber-400 w-full mb-2"
-            type="button">
+            type="button"
+          >
             Add Item
           </button>
         </div>
@@ -120,13 +180,19 @@
         <h1 class="mb-2">Methods of Payment</h1>
         <div formArrayName="methodsOfPayment">
           <div
-            *ngFor="let method of getMethodsOfPaymentControls(); let i = index">
-            <input [formControlName]="i" type="text"
-                   placeholder="Payment Method"
-                   class="border py-2 px-3 bg-transparent block rounded w-full mb-2"/>
-            <button (click)="removeMethodOfPayment(i)"
-                    class="p-0.5 text-red-500 w-full mb-2"
-                    type="button">
+            *ngFor="let method of getMethodsOfPaymentControls(); let i = index"
+          >
+            <input
+              [formControlName]="i"
+              type="text"
+              placeholder="Payment Method"
+              class="border py-2 px-3 bg-transparent block rounded w-full mb-2"
+            />
+            <button
+              (click)="removeMethodOfPayment(i)"
+              class="p-0.5 text-red-500 w-full mb-2"
+              type="button"
+            >
               Remove Method of Payment
             </button>
           </div>
@@ -136,7 +202,8 @@
           <button
             (click)="addMethodOfPayment()"
             class="rounded-lg p-0.5 bg-amber-300 hover:bg-amber-400 w-full mb-2"
-            type="button">
+            type="button"
+          >
             Add Method of Payment
           </button>
         </div>
@@ -156,33 +223,37 @@
     <div class="flex flex-col w-64">
       <div class="flex flex-col align-middle justify-between">
         <h1 class="font-bold pb-1">Supplier Name:</h1>
-        <p class="pb-4 font-light">{{supplierName}}</p>
+        <p class="pb-4 font-light">{{ supplierName }}</p>
       </div>
       <div class="flex flex-col align-middle justify-between">
         <h1 class="font-bold pb-1">Supplier Address:</h1>
-        <p class="pb-4 font-light">{{supplierAddress}}</p>
+        <p class="pb-4 font-light">{{ supplierAddress }}</p>
       </div>
       <div class="flex flex-col align-middle justify-between">
         <h1 class="font-bold pb-1">Contact Number:</h1>
-        <p class="pb-4 font-light">{{supplierNumber}}</p>
+        <p class="pb-4 font-light">{{ supplierNumber }}</p>
       </div>
       <div class="flex flex-col align-middle justify-between">
         <h1 class="font-bold pb-1">Contact Email:</h1>
-        <p class="pb-4 font-light">{{supplierEmail}}</p>
+        <p class="pb-4 font-light">{{ supplierEmail }}</p>
+      </div>
+      <div class="flex flex-col align-middle justify-between">
+        <h1 class="font-bold pb-1">Supplier Rating:</h1>
+        <p class="pb-4 font-light">{{ supplierRating }}/5</p>
       </div>
 
       <div class="mb-4">
         <h1 class="font-bold pb-1">Items:</h1>
         <div *ngFor="let item of supplierItems">
           <div class="flex flex-col align-middle justify-between">
-            <h1 class="pb-1">{{item.itemName | uppercase}}</h1>
+            <h1 class="pb-1">{{ item.itemName | uppercase }}</h1>
             <div class="flex justify-between font-light">
               <p>Price/Unit:</p>
-              <p>&#x20B1; {{item.pricePerUnit}}</p>
+              <p>&#x20B1; {{ item.pricePerUnit }}</p>
             </div>
             <div class="flex justify-between font-light">
               <p>MOQ:</p>
-              <p>{{item.moq}} units</p>
+              <p>{{ item.moq }} units</p>
             </div>
           </div>
         </div>
@@ -190,7 +261,7 @@
 
       <div class="flex flex-col align-middle justify-between">
         <h1 class="font-bold pb-1">Methods of Payment:</h1>
-        <p class="pb-4 font-light">{{supplierMOP | uppercase}}</p>
+        <p class="pb-4 font-light">{{ supplierMOP | uppercase }}</p>
       </div>
 
       <div class="flex justify-center align-middle">
@@ -198,9 +269,9 @@
           class="text-red-500 font-light hover:cursor-pointer"
           (click)="deleteSupplier($event)"
         >
-          Delete Supplier</a>
+          Delete Supplier</a
+        >
       </div>
     </div>
   </ng-container>
-
 </app-modal>
