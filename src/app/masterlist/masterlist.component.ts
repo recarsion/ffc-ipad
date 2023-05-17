@@ -17,6 +17,7 @@ export class MasterlistComponent implements OnInit {
   supplierAddress = ''
   supplierNumber = ''
   supplierEmail = ''
+  supplierMOP = ''
 
   constructor(
     public modal: ModalService,
@@ -43,6 +44,9 @@ export class MasterlistComponent implements OnInit {
     this.supplierAddress = supplier.address
     this.supplierNumber = supplier.contactNumber
     this.supplierEmail = supplier.contactEmail
+    this.supplierMOP = supplier.methodsOfPayment.join(", ")
+
+    console.log(this.supplierMOP)
   }
 
   async logout($event: Event) {

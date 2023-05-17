@@ -19,7 +19,9 @@ export class MasterlistService {
         name: supplierData.name,
         address: supplierData.address,
         contactNumber: supplierData.contactNumber,
-        contactEmail: supplierData.contactEmail
+        contactEmail: supplierData.contactEmail,
+        items: supplierData.items,
+        methodsOfPayment: supplierData.methodsOfPayment
       })
       console.log('Supplier data added.'), addSupplierData
     } catch (e) {

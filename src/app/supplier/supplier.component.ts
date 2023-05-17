@@ -17,36 +17,23 @@ export class SupplierComponent implements OnInit, OnDestroy {
   @Input() supplierAddress = ''
   @Input() supplierNumber = ''
   @Input() supplierEmail = ''
-
-  name = new FormControl('')
-  address = new FormControl('')
-  contactNumber = new FormControl('')
-  contactEmail = new FormControl('')
-
-  pricePerUnit = new FormControl('')
-  moq = new FormControl('')
-  item = new FormGroup({
-    pricePerUnit: this.pricePerUnit,
-    moq: this.moq
-  })
-
-  itemName: FormControl = new FormControl('')
-
-  items: FormGroup = new FormGroup({
-    item: this.item
-  })
-
-  methodOfPayment = new FormArray([])
+  @Input() supplierMOP = ''
 
   supplierForm = new FormGroup({
-    name: this.name,
-    address: this.address,
-    contactNumber: this.contactNumber,
-    contactEmail: this.contactEmail,
-    // items: this.items,
-    // methodOfPayment: this.methodOfPayment
+    name: new FormControl(''),
+    address: new FormControl(''),
+    contactNumber: new FormControl(''),
+    contactEmail: new FormControl(''),
+    items: new FormGroup({
+      item: new FormGroup({
+        pricePerUnit: new FormControl(''),
+        moq: new FormControl('')
+      })
+    }),
+    methodsOfPayment: new FormArray([])
 
   })
+
 
   constructor(
     public modal: ModalService,
@@ -56,25 +43,40 @@ export class SupplierComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.modal.register('supplier');
+
   }
 
   ngOnDestroy(): void {
     this.modal.unregister('supplier');
   }
 
-  // addItem() {
-  //   const newItemGroup = new FormGroup({
-  //     pricePerUnit: new FormControl(''),
-  //     moq: new FormControl('')
-  //   })
-  //
-  //   this.items.setControl(this.itemName.value, newItemGroup)
-  //   this.itemName.reset()
-  // }
+  getMethodsOfPaymentControls() {
+    return (this.supplierForm.get('methodsOfPayment') as FormArray).controls;
+  }
+
+  addItem() {
+    const items = this.supplierForm.get('items') as FormGroup;
+    const newItemGroup = new FormGroup({
+      pricePerUnit: new FormControl(''),
+      moq: new FormControl('')
+    })
+    items.addControl('item' + Object.keys(items.controls).length, newItemGroup)
+  }
+
+  addMethodOfPayment() {
+    const methodsOfPayment = this.supplierForm.get('methodsOfPayment') as FormArray;
+    methodsOfPayment.push(new FormControl(''))
+  }
+
+  removeItem(key: string) {
+    const items = this.supplierForm.get('items') as FormGroup;
+    items.removeControl(key)
+  }
 
   async submitAddSupplier() {
     try {
       await this.masterlistService.createSupplier(this.supplierForm.value as ISupplier)
+      console.log(this.supplierForm.value)
       location.reload()
     } catch (e) {
       console.error(e)
@@ -86,4 +88,5 @@ export class SupplierComponent implements OnInit, OnDestroy {
     $event.preventDefault();
     console.log('deleteSupplier called')
   }
+
 }

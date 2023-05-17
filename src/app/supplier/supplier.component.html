@@ -4,49 +4,57 @@
     <div class="w-64">
       <form [formGroup]="supplierForm" (ngSubmit)="submitAddSupplier()">
         <div class="mb-4">
-          <app-input
-            [control]="name"
+          <input
+            formControlName="name"
             type="text"
-            placeholder="Supplier Name"></app-input>
+            placeholder="Supplier Name"
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
         </div>
         <div class="mb-4">
-          <app-input
-            [control]="address"
+          <input
+            formControlName="address"
             type="text"
-            placeholder="Address"></app-input>
+            placeholder="Supplier Address"
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
         </div>
         <div class="mb-4">
-          <app-input
-            [control]="contactNumber"
+          <input
+            formControlName="contactNumber"
             type="text"
-            placeholder="Contact Number"></app-input>
+            placeholder="Supplier Number"
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
         </div>
         <div class="mb-4">
-          <app-input
-            [control]="contactEmail"
-            type="email"
-            placeholder="Contact Email"></app-input>
+          <input
+            formControlName="contactEmail"
+            type="text"
+            placeholder="Supplier Email"
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
         </div>
         <hr/>
-        <!--      <p class="text-xl font-bold">Items</p>-->
-        <!--      <div formGroupName="items">-->
-        <!--        <label>Item Name:</label>-->
-        <!--        <app-input-->
-        <!--          [control]="itemName"-->
-        <!--          type="text"-->
-        <!--          placeholder="Item Name"></app-input>-->
-        <!--        <label>Price/Unit</label>-->
-        <!--        <app-input-->
-        <!--          [control]="pricePerUnit"-->
-        <!--          type="text"-->
-        <!--          placeholder="Price/Unit"></app-input>-->
-        <!--        <label>MOQ:</label>-->
-        <!--        <app-input-->
-        <!--          [control]="moq"-->
-        <!--          type="text"-->
-        <!--          placeholder="MOQ"></app-input>-->
-        <!--      </div>-->
-        <!--      <button type="button" (click)="addItem()">Add Item</button>-->
+
+        <h1 class="mb-2">Methods of Payment</h1>
+        <div formArrayName="methodsOfPayment">
+          <div
+            *ngFor="let method of getMethodsOfPaymentControls(); let i = index">
+            <input [formControlName]="i" type="text"
+                   placeholder="Payment Method"
+                   class="border py-2 px-3 bg-transparent block rounded w-full"/>
+          </div>
+        </div>
+        <div>
+          <button
+            (click)="addMethodOfPayment()"
+            class="rounded-lg p-0.5 bg-amber-300 hover:bg-amber-400 w-full mb-2"
+            type="button">
+            Add Method of Payment
+          </button>
+        </div>
+
         <button
           [disabled]="supplierForm.invalid"
           type="submit"
@@ -75,6 +83,10 @@
       <div class="flex flex-col align-middle justify-between">
         <h1 class="font-bold pb-1">Contact Email:</h1>
         <p class="pb-4 font-light">{{supplierEmail}}</p>
+      </div>
+      <div class="flex flex-col align-middle justify-between">
+        <h1 class="font-bold pb-1">Methods of Payment:</h1>
+        <p class="pb-4 font-light">{{supplierMOP | uppercase}}</p>
       </div>
 
       <div class="flex justify-center align-middle">

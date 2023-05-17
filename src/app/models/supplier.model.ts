@@ -3,8 +3,8 @@ export default interface ISupplier {
   address: string;
   contactNumber: string;
   contactEmail: string;
-  items?: IItem[];
-  modeOfPayment?: string[]
+  items: IItem[];
+  methodsOfPayment?: string[]
 }
 
 interface IItem {
