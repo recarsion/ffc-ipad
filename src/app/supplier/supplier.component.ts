@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ModalService} from '../services/modal.service';
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MasterlistService} from "../services/masterlist.service";
 import ISupplier from "../models/supplier.model";
 
@@ -18,12 +18,13 @@ export class SupplierComponent implements OnInit, OnDestroy {
   @Input() supplierNumber = ''
   @Input() supplierEmail = ''
   @Input() supplierMOP = ''
+  @Input() supplierItems: any[] = []
 
   supplierForm = new FormGroup({
-    name: new FormControl(''),
-    address: new FormControl(''),
-    contactNumber: new FormControl(''),
-    contactEmail: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    contactNumber: new FormControl('', [Validators.required]),
+    contactEmail: new FormControl('', [Validators.required, Validators.email]),
     items: new FormArray([]),
     methodsOfPayment: new FormArray([])
 
@@ -57,9 +58,9 @@ export class SupplierComponent implements OnInit, OnDestroy {
   addItem() {
     const items = this.supplierForm.get('items') as FormArray;
     const newItemGroup = new FormGroup({
-      itemName: new FormControl(''),
-      pricePerUnit: new FormControl(''),
-      moq: new FormControl('')
+      itemName: new FormControl<number | null>(null, [Validators.required]),
+      pricePerUnit: new FormControl<number | null>(null, [Validators.required]),
+      moq: new FormControl('', [Validators.required])
     })
     items.push(newItemGroup)
 
@@ -79,7 +80,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
     const methodsOfPayment = this.supplierForm.get('methodsOfPayment') as FormArray;
     methodsOfPayment.removeAt(index);
   }
-  
+
   async submitAddSupplier() {
     try {
       await this.masterlistService.createSupplier(this.supplierForm.value as ISupplier)
