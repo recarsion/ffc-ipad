@@ -37,15 +37,69 @@
         </div>
         <hr/>
 
+        <h1 class="mb-2">Items</h1>
+        <div formArrayName="items">
+          <div
+            *ngFor="let method of getItemsControls(); let i = index">
+            <div [formGroupName]="i" class="mb-2">
+              <input
+                formControlName="itemName"
+                type="text"
+                placeholder="Item Name"
+                class="border py-2 px-3 bg-transparent block rounded w-full"
+              />
+            </div>
+            <div [formGroupName]="i" class="mb-2">
+              <input
+                formControlName="pricePerUnit"
+                type="text"
+                placeholder="Price per Unit"
+                class="border py-2 px-3 bg-transparent block rounded w-full"
+              />
+            </div>
+            <div [formGroupName]="i" class="mb-2">
+              <input
+                formControlName="moq"
+                type="text"
+                placeholder="MOQ (Minimum Order Quantity)"
+                class="border py-2 px-3 bg-transparent block rounded w-full"
+              />
+            </div>
+            <div>
+              <button
+                (click)="removeItem(i)"
+                class="p-0.5 text-red-500 w-full mb-2"
+                type="button"
+              >
+                Remove Item
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button
+            (click)="addItem()"
+            class="rounded-lg p-0.5 bg-amber-300 hover:bg-amber-400 w-full mb-2"
+            type="button">
+            Add Item
+          </button>
+        </div>
+
         <h1 class="mb-2">Methods of Payment</h1>
         <div formArrayName="methodsOfPayment">
           <div
             *ngFor="let method of getMethodsOfPaymentControls(); let i = index">
             <input [formControlName]="i" type="text"
                    placeholder="Payment Method"
-                   class="border py-2 px-3 bg-transparent block rounded w-full"/>
+                   class="border py-2 px-3 bg-transparent block rounded w-full mb-2"/>
+            <button (click)="removeMethodOfPayment(i)"
+                    class="p-0.5 text-red-500 w-full mb-2"
+                    type="button">
+              Remove Method of Payment
+            </button>
           </div>
         </div>
+
         <div>
           <button
             (click)="addMethodOfPayment()"

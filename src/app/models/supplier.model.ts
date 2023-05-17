@@ -8,6 +8,7 @@ export default interface ISupplier {
 }
 
 interface IItem {
+  itemName: string
   pricePerUnit: number;
   moq: number
 }

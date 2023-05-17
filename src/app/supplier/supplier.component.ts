@@ -24,12 +24,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
     address: new FormControl(''),
     contactNumber: new FormControl(''),
     contactEmail: new FormControl(''),
-    items: new FormGroup({
-      item: new FormGroup({
-        pricePerUnit: new FormControl(''),
-        moq: new FormControl('')
-      })
-    }),
+    items: new FormArray([]),
     methodsOfPayment: new FormArray([])
 
   })
@@ -43,6 +38,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.modal.register('supplier');
+    this.getItemsControls()
 
   }
 
@@ -50,17 +46,23 @@ export class SupplierComponent implements OnInit, OnDestroy {
     this.modal.unregister('supplier');
   }
 
+  getItemsControls() {
+    return (this.supplierForm.get('items') as FormArray).controls;
+  }
+
   getMethodsOfPaymentControls() {
     return (this.supplierForm.get('methodsOfPayment') as FormArray).controls;
   }
 
   addItem() {
-    const items = this.supplierForm.get('items') as FormGroup;
+    const items = this.supplierForm.get('items') as FormArray;
     const newItemGroup = new FormGroup({
+      itemName: new FormControl(''),
       pricePerUnit: new FormControl(''),
       moq: new FormControl('')
     })
-    items.addControl('item' + Object.keys(items.controls).length, newItemGroup)
+    items.push(newItemGroup)
+
   }
 
   addMethodOfPayment() {
@@ -68,11 +70,16 @@ export class SupplierComponent implements OnInit, OnDestroy {
     methodsOfPayment.push(new FormControl(''))
   }
 
-  removeItem(key: string) {
-    const items = this.supplierForm.get('items') as FormGroup;
-    items.removeControl(key)
+  removeItem(index: number) {
+    const items = this.supplierForm.get('items') as FormArray;
+    items.removeAt(index);
   }
 
+  removeMethodOfPayment(index: number) {
+    const methodsOfPayment = this.supplierForm.get('methodsOfPayment') as FormArray;
+    methodsOfPayment.removeAt(index);
+  }
+  
   async submitAddSupplier() {
     try {
       await this.masterlistService.createSupplier(this.supplierForm.value as ISupplier)
