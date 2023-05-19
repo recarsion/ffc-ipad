@@ -67,10 +67,7 @@ export class SupplierComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(0),
       ]),
-      moq: new FormControl<number | null>(null, [
-        Validators.required,
-        Validators.min(0),
-      ]),
+      moq: new FormControl('', [Validators.required, Validators.min(0)]),
     });
     items.push(newItemGroup);
   }
