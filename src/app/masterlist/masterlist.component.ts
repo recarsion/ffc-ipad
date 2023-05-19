@@ -13,6 +13,10 @@ export class MasterlistComponent implements OnInit {
   modalTitle = '';
   supplierAction = '';
 
+  supplierList: DocumentData[] = [];
+  searchValue = '';
+  selectedOption = 'supplier';
+
   supplierName = '';
   supplierAddress = '';
   supplierNumber: number = 0;
@@ -30,6 +34,7 @@ export class MasterlistComponent implements OnInit {
 
   async ngOnInit() {
     await this.masterlistService.fetchData();
+    this.supplierList = this.masterlistService.supplierList;
   }
 
   addSupplier() {
@@ -51,6 +56,23 @@ export class MasterlistComponent implements OnInit {
     this.supplierMOP = supplier.methodsOfPayment.join(', ');
     this.supplierItems = supplier.items;
     this.supplierID = supplier.id;
+  }
+
+  search() {
+    const searchValue = this.searchValue.toLowerCase();
+    this.supplierList = this.masterlistService.supplierList.filter(
+      (supplier) => {
+        if (this.selectedOption === 'supplier') {
+          return supplier.name.toLowerCase().includes(searchValue);
+        } else if (this.selectedOption === 'item') {
+          return supplier.items.some((item: any) =>
+            item.itemName.toLowerCase().includes(searchValue)
+          );
+        }
+        return false;
+      }
+    );
+    console.log(this.selectedOption, this.supplierList);
   }
 
   async logout($event: Event) {

@@ -4,26 +4,33 @@
       <h1 class="font-bold pb-1 text-center text-xl">Supplier Masterlist</h1>
       <form>
         <div class="flex justify-center align-middle">
-          <app-input
+          <input
+            [(ngModel)]="searchValue"
+            (input)="search()"
+            name="search"
             type="search"
             placeholder="Search item or supplier"
-            class="w-full"
-          ></app-input>
-          <button
-            type="submit"
-            class="bg-blue-500 hover:bg-blue-600 text-white w-20"
-          >
-            Search
-          </button>
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
         </div>
         <div class="flex justify-around align-middle py-2">
           <div>
             <label class="mr-2">Supplier</label>
-            <input type="radio" />
+            <input
+              type="radio"
+              [(ngModel)]="selectedOption"
+              value="supplier"
+              name="selectedOption"
+            />
           </div>
           <div>
             <label class="mr-2">Item</label>
-            <input type="radio" />
+            <input
+              type="radio"
+              [(ngModel)]="selectedOption"
+              value="item"
+              name="selectedOption"
+            />
           </div>
         </div>
       </form>
@@ -44,7 +51,7 @@
     <div class="flex flex-col">
       <ul>
         <li
-          *ngFor="let supplier of masterlistService.supplierList"
+          *ngFor="let supplier of supplierList"
           class="flex justify-center align-middle mb-2 hover:cursor-pointer"
           (click)="viewSupplier(supplier)"
         >
