@@ -62,9 +62,15 @@ export class SupplierComponent implements OnInit, OnDestroy {
   addItem() {
     const items = this.supplierForm.get('items') as FormArray;
     const newItemGroup = new FormGroup({
-      itemName: new FormControl<number | null>(null, [Validators.required]),
-      pricePerUnit: new FormControl<number | null>(null, [Validators.required]),
-      moq: new FormControl('', [Validators.required]),
+      itemName: new FormControl('', [Validators.required]),
+      pricePerUnit: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(0),
+      ]),
+      moq: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(0),
+      ]),
     });
     items.push(newItemGroup);
   }

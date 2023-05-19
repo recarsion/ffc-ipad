@@ -26,6 +26,26 @@ export class MasterlistComponent implements OnInit {
   supplierItems: any[] = [];
   supplierID = '';
 
+  sortOptions = [
+    {
+      label: 'Alphabetical, A-Z',
+      value: 'alphabeticalAsc',
+    },
+    {
+      label: 'Alphabetical, Z-A',
+      value: 'alphabeticalDesc',
+    },
+    {
+      label: 'Rating Asc',
+      value: 'ratingAsc',
+    },
+    {
+      label: 'Rating Desc',
+      value: 'ratingDesc',
+    },
+  ];
+  selectedSortOption: string = 'alphabeticalAsc';
+
   constructor(
     public modal: ModalService,
     private auth: Auth = inject(Auth),
@@ -34,7 +54,28 @@ export class MasterlistComponent implements OnInit {
 
   async ngOnInit() {
     await this.masterlistService.fetchData();
-    this.supplierList = this.masterlistService.supplierList;
+    this.supplierList = this.masterlistService.supplierList.sort(
+      this.sortAlphabetically
+    );
+    console.log(this.supplierList);
+  }
+
+  sortAlphabetically(a: any, b: any) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    } else if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  }
+
+  reverseSortAlphabetically(a: any, b: any) {
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return -1;
+    } else if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
   }
 
   addSupplier() {
@@ -72,7 +113,28 @@ export class MasterlistComponent implements OnInit {
         return false;
       }
     );
-    console.log(this.selectedOption, this.supplierList);
+
+    if (this.selectedSortOption === 'alphabeticalAsc') {
+      this.supplierList.sort(this.sortAlphabetically);
+    } else if (this.selectedSortOption === 'alphabeticalDesc') {
+      this.supplierList.sort(this.reverseSortAlphabetically);
+    } else if (this.selectedSortOption === 'ratingAsc') {
+      this.supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
+    } else if (this.selectedSortOption === 'ratingDesc') {
+      this.supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+    }
+  }
+
+  sort() {
+    if (this.selectedSortOption === 'alphabeticalAsc') {
+      this.supplierList.sort(this.sortAlphabetically);
+    } else if (this.selectedSortOption === 'alphabeticalDesc') {
+      this.supplierList.sort(this.reverseSortAlphabetically);
+    } else if (this.selectedSortOption === 'ratingAsc') {
+      this.supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
+    } else if (this.selectedSortOption === 'ratingDesc') {
+      this.supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+    }
   }
 
   async logout($event: Event) {
