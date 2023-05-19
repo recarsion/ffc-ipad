@@ -2,10 +2,11 @@
   class="fixed inset-0 z-50 flex items-center justify-center bg-gray-700 bg-opacity-50"
   [ngClass]="{ hidden: !modal.isModalOpen(modalID) }"
 >
-  <div class="bg-white rounded-lg p-4">
+  <div class="bg-white rounded-lg p-4 max-h-96 w-fit min-w-fit overflow-auto">
     <div class="flex justify-between items-center pb-4">
       <ng-content select="[heading]"></ng-content>
-      <div class="cursor-pointer z-50" (click)="closeModal()">&#x2715;</div>
+      <div class="cursor-pointer z-50 ml-4" (click)="closeModal()">&#x2715;
+      </div>
     </div>
     <ng-content></ng-content>
   </div>

@@ -44,6 +44,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
         this.auth,
         email,
         password)
+      location.reload()
     } catch (e) {
       this.inSubmission = false
       console.error(e);

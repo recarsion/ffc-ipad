@@ -1,41 +1,84 @@
-<div class="mb-8">
-  <h1 class="font-bold pb-1 text-center text-xl">Supplier Masterlist</h1>
-  <hr />
-  <form>
-    <div class="flex justify-around align-middle py-2">
-      <div>
-        <label class="mr-2">Supplier</label>
-        <input type="radio" />
-      </div>
-      <div>
-        <label class="mr-2">Item</label>
-        <input type="radio" />
-      </div>
+<div class="flex flex-col min-h-screen">
+  <div class="flex-grow">
+    <div>
+      <h1 class="font-bold pb-1 text-center text-xl">Supplier Masterlist</h1>
+      <form>
+        <div class="flex justify-center align-middle">
+          <input
+            [(ngModel)]="searchValue"
+            (input)="search()"
+            name="search"
+            type="search"
+            placeholder="Search item or supplier"
+            class="border py-2 px-3 bg-transparent block rounded w-full"
+          />
+        </div>
+        <div class="flex justify-around align-middle py-2">
+          <div>
+            <label class="mr-2">Supplier</label>
+            <input
+              type="radio"
+              [(ngModel)]="selectedOption"
+              value="supplier"
+              name="selectedOption"
+            />
+          </div>
+          <div>
+            <label class="mr-2">Item</label>
+            <input
+              type="radio"
+              [(ngModel)]="selectedOption"
+              value="item"
+              name="selectedOption"
+            />
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="flex justify-center align-middle">
-      <app-input
-        type="search"
-        placeholder="Search item or supplier"
-        class="w-full"
-      ></app-input>
+
+    <hr class="mb-2" />
+
+    <!-- Add Supplier Button -->
+    <div class="flex justify-center align-middle mb-4">
       <button
-        type="submit"
-        class="bg-blue-500 hover:bg-blue-600 text-white w-20"
+        class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-0.5 w-1/2"
+        (click)="addSupplier()"
       >
-        Search
+        Add Supplier
       </button>
     </div>
-  </form>
-</div>
 
-<!-- Add Supplier Button -->
-<div class="flex justify-center align-middle">
-  <button
-    class="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-0.5 w-1/2"
-    (click)="addSupplier()"
-  >
-    Add Supplier
-  </button>
-</div>
+    <div class="flex flex-col">
+      <ul>
+        <li
+          *ngFor="let supplier of supplierList"
+          class="flex justify-center align-middle mb-2 hover:cursor-pointer"
+          (click)="viewSupplier(supplier)"
+        >
+          {{ supplier.name | uppercase }}
+        </li>
+      </ul>
+    </div>
+  </div>
 
-<app-supplier [supplierModalTitle]="modalTitle"></app-supplier>
+  <div class="flex justify-center align-middle">
+    <a
+      class="text-red-500 font-light hover:cursor-pointer"
+      (click)="logout($event)"
+      >Log Out</a
+    >
+  </div>
+
+  <app-supplier
+    [supplierModalTitle]="modalTitle"
+    [supplierAction]="supplierAction"
+    [supplierName]="supplierName"
+    [supplierAddress]="supplierAddress"
+    [supplierNumber]="supplierNumber"
+    [supplierEmail]="supplierEmail"
+    [supplierRating]="supplierRating"
+    [supplierMOP]="supplierMOP"
+    [supplierItems]="supplierItems"
+    [supplierID]="supplierID"
+  ></app-supplier>
+</div>
