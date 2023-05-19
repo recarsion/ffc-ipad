@@ -48,6 +48,20 @@
       </button>
     </div>
 
+    <div class="flex justify-center align-middle font-light mb-4">
+      <label>Sort by: </label>
+      <select
+        name="sort"
+        [(ngModel)]="selectedSortOption"
+        (change)="sort()"
+        class="rounded-md border border-black px-1 ml-1"
+      >
+        <option *ngFor="let option of sortOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
     <div class="flex flex-col">
       <ul>
         <li
