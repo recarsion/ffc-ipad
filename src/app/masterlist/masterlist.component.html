@@ -53,7 +53,7 @@
       <select
         name="sort"
         [(ngModel)]="selectedSortOption"
-        (change)="sort()"
+        (change)="sort(supplierList)"
         class="rounded-md border border-black px-1 ml-1"
       >
         <option *ngFor="let option of sortOptions" [value]="option.value">

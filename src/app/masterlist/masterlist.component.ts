@@ -43,6 +43,14 @@ export class MasterlistComponent implements OnInit {
       label: 'Rating Desc',
       value: 'ratingDesc',
     },
+    {
+      label: 'Price Asc',
+      value: 'priceAsc',
+    },
+    {
+      label: 'Price Desc',
+      value: 'priceDesc',
+    },
   ];
   selectedSortOption: string = 'alphabeticalAsc';
 
@@ -101,39 +109,35 @@ export class MasterlistComponent implements OnInit {
 
   search() {
     const searchValue = this.searchValue.toLowerCase();
-    this.supplierList = this.masterlistService.supplierList.filter(
-      (supplier) => {
-        if (this.selectedOption === 'supplier') {
-          return supplier.name.toLowerCase().includes(searchValue);
-        } else if (this.selectedOption === 'item') {
-          return supplier.items.some((item: any) =>
-            item.itemName.toLowerCase().includes(searchValue)
-          );
+    if (searchValue === '') {
+      this.supplierList = this.masterlistService.supplierList;
+    } else {
+      this.supplierList = this.masterlistService.supplierList.filter(
+        (supplier) => {
+          if (this.selectedOption === 'supplier') {
+            return supplier.name.toLowerCase().includes(searchValue);
+          } else if (this.selectedOption === 'item') {
+            return supplier.items.some((item: any) =>
+              item.itemName.toLowerCase().includes(searchValue)
+            );
+          }
+          return false;
         }
-        return false;
-      }
-    );
-
-    if (this.selectedSortOption === 'alphabeticalAsc') {
-      this.supplierList.sort(this.sortAlphabetically);
-    } else if (this.selectedSortOption === 'alphabeticalDesc') {
-      this.supplierList.sort(this.reverseSortAlphabetically);
-    } else if (this.selectedSortOption === 'ratingAsc') {
-      this.supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
-    } else if (this.selectedSortOption === 'ratingDesc') {
-      this.supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+      );
     }
+    console.log(this.supplierList);
+    this.sort(this.supplierList);
   }
 
-  sort() {
+  sort(supplierList: DocumentData[]) {
     if (this.selectedSortOption === 'alphabeticalAsc') {
-      this.supplierList.sort(this.sortAlphabetically);
+      supplierList.sort(this.sortAlphabetically);
     } else if (this.selectedSortOption === 'alphabeticalDesc') {
-      this.supplierList.sort(this.reverseSortAlphabetically);
+      supplierList.sort(this.reverseSortAlphabetically);
     } else if (this.selectedSortOption === 'ratingAsc') {
-      this.supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
+      supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
     } else if (this.selectedSortOption === 'ratingDesc') {
-      this.supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+      supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
     }
   }
 
