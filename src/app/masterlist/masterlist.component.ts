@@ -65,7 +65,6 @@ export class MasterlistComponent implements OnInit {
     this.supplierList = this.masterlistService.supplierList.sort(
       this.sortAlphabetically
     );
-    console.log(this.supplierList);
   }
 
   sortAlphabetically(a: any, b: any) {
@@ -125,11 +124,21 @@ export class MasterlistComponent implements OnInit {
         }
       );
     }
-    console.log(this.supplierList);
-    this.sort(this.supplierList);
+
+    if (
+      this.selectedOption === 'item' &&
+      this.selectedSortOption === 'priceAsc'
+    ) {
+      this.sortByItemPrice(searchValue);
+    } else if (
+      this.selectedOption === 'item' &&
+      this.selectedSortOption === 'priceDesc'
+    ) {
+      this.reverseSortByItemPrice(searchValue);
+    }
   }
 
-  sort(supplierList: DocumentData[]) {
+  sort(supplierList: DocumentData[], searchValue: string) {
     if (this.selectedSortOption === 'alphabeticalAsc') {
       supplierList.sort(this.sortAlphabetically);
     } else if (this.selectedSortOption === 'alphabeticalDesc') {
@@ -138,7 +147,60 @@ export class MasterlistComponent implements OnInit {
       supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
     } else if (this.selectedSortOption === 'ratingDesc') {
       supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+    } else if (this.selectedSortOption === 'priceAsc') {
+      this.sortByItemPrice(searchValue);
+    } else if (this.selectedSortOption === 'priceDesc') {
+      this.reverseSortByItemPrice(searchValue);
     }
+  }
+
+  sortByItemPrice(searchValue: string) {
+    this.supplierList.sort((a: any, b: any) => {
+      const itemA = a.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+      const itemB = b.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+
+      if (itemA && itemB) {
+        return itemA.pricePerUnit - itemB.pricePerUnit;
+      } else if (itemA) {
+        return -1;
+      } else if (itemB) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
+
+  reverseSortByItemPrice(searchValue: string) {
+    this.supplierList.sort((a: any, b: any) => {
+      const itemA = a.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+      const itemB = b.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+
+      if (itemA && itemB) {
+        return itemB.pricePerUnit - itemA.pricePerUnit;
+      } else if (itemA) {
+        return 1;
+      } else if (itemB) {
+        return -1;
+      }
+
+      return 0;
+    });
+  }
+
+  isSortOptionDisabled(sortOption: string): boolean {
+    return (
+      this.selectedOption === 'supplier' &&
+      (sortOption === 'priceAsc' || sortOption === 'priceDesc')
+    );
   }
 
   async logout($event: Event) {
