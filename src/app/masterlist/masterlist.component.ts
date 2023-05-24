@@ -43,6 +43,14 @@ export class MasterlistComponent implements OnInit {
       label: 'Rating Desc',
       value: 'ratingDesc',
     },
+    {
+      label: 'Price Asc',
+      value: 'priceAsc',
+    },
+    {
+      label: 'Price Desc',
+      value: 'priceDesc',
+    },
   ];
   selectedSortOption: string = 'alphabeticalAsc';
 
@@ -57,7 +65,6 @@ export class MasterlistComponent implements OnInit {
     this.supplierList = this.masterlistService.supplierList.sort(
       this.sortAlphabetically
     );
-    console.log(this.supplierList);
   }
 
   sortAlphabetically(a: any, b: any) {
@@ -101,40 +108,99 @@ export class MasterlistComponent implements OnInit {
 
   search() {
     const searchValue = this.searchValue.toLowerCase();
-    this.supplierList = this.masterlistService.supplierList.filter(
-      (supplier) => {
-        if (this.selectedOption === 'supplier') {
-          return supplier.name.toLowerCase().includes(searchValue);
-        } else if (this.selectedOption === 'item') {
-          return supplier.items.some((item: any) =>
-            item.itemName.toLowerCase().includes(searchValue)
-          );
+    if (searchValue === '') {
+      this.supplierList = this.masterlistService.supplierList;
+    } else {
+      this.supplierList = this.masterlistService.supplierList.filter(
+        (supplier) => {
+          if (this.selectedOption === 'supplier') {
+            return supplier.name.toLowerCase().includes(searchValue);
+          } else if (this.selectedOption === 'item') {
+            return supplier.items.some((item: any) =>
+              item.itemName.toLowerCase().includes(searchValue)
+            );
+          }
+          return false;
         }
-        return false;
-      }
-    );
+      );
+    }
 
-    if (this.selectedSortOption === 'alphabeticalAsc') {
-      this.supplierList.sort(this.sortAlphabetically);
-    } else if (this.selectedSortOption === 'alphabeticalDesc') {
-      this.supplierList.sort(this.reverseSortAlphabetically);
-    } else if (this.selectedSortOption === 'ratingAsc') {
-      this.supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
-    } else if (this.selectedSortOption === 'ratingDesc') {
-      this.supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+    if (
+      this.selectedOption === 'item' &&
+      this.selectedSortOption === 'priceAsc'
+    ) {
+      this.sortByItemPrice(searchValue);
+    } else if (
+      this.selectedOption === 'item' &&
+      this.selectedSortOption === 'priceDesc'
+    ) {
+      this.reverseSortByItemPrice(searchValue);
     }
   }
 
-  sort() {
+  sort(supplierList: DocumentData[], searchValue: string) {
     if (this.selectedSortOption === 'alphabeticalAsc') {
-      this.supplierList.sort(this.sortAlphabetically);
+      supplierList.sort(this.sortAlphabetically);
     } else if (this.selectedSortOption === 'alphabeticalDesc') {
-      this.supplierList.sort(this.reverseSortAlphabetically);
+      supplierList.sort(this.reverseSortAlphabetically);
     } else if (this.selectedSortOption === 'ratingAsc') {
-      this.supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
+      supplierList.sort((a, b) => a.supplierRating - b.supplierRating);
     } else if (this.selectedSortOption === 'ratingDesc') {
-      this.supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+      supplierList.sort((a, b) => b.supplierRating - a.supplierRating);
+    } else if (this.selectedSortOption === 'priceAsc') {
+      this.sortByItemPrice(searchValue);
+    } else if (this.selectedSortOption === 'priceDesc') {
+      this.reverseSortByItemPrice(searchValue);
     }
+  }
+
+  sortByItemPrice(searchValue: string) {
+    this.supplierList.sort((a: any, b: any) => {
+      const itemA = a.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+      const itemB = b.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+
+      if (itemA && itemB) {
+        return itemA.pricePerUnit - itemB.pricePerUnit;
+      } else if (itemA) {
+        return -1;
+      } else if (itemB) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
+
+  reverseSortByItemPrice(searchValue: string) {
+    this.supplierList.sort((a: any, b: any) => {
+      const itemA = a.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+      const itemB = b.items.find((item: any) =>
+        item.itemName.toLowerCase().includes(searchValue)
+      );
+
+      if (itemA && itemB) {
+        return itemB.pricePerUnit - itemA.pricePerUnit;
+      } else if (itemA) {
+        return 1;
+      } else if (itemB) {
+        return -1;
+      }
+
+      return 0;
+    });
+  }
+
+  isSortOptionDisabled(sortOption: string): boolean {
+    return (
+      this.selectedOption === 'supplier' &&
+      (sortOption === 'priceAsc' || sortOption === 'priceDesc')
+    );
   }
 
   async logout($event: Event) {
